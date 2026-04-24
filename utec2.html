@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal UTEC Actualizado</title>
+    <style>
+        :root {
+            --utec-maroon: #8b0035;
+            --utec-bg: #f8faff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body { background: var(--utec-bg); overflow-x: hidden; }
+        .screen { display: none; min-height: 100vh; padding-bottom: 80px; }
+        .active { display: block; }
+
+        /* --- PANTALLA INICIO --- */
+        .header-home {
+            background: var(--utec-maroon);
+            color: white;
+            padding: 40px 20px 30px;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+        }
+
+        .top-bar { display: flex; justify-content: space-between; align-items: flex-start; }
+        .logo-utec { width: 140px; margin-bottom: 20px; }
+        .cum-box { text-align: center; }
+        .cum-box b { font-size: 28px; display: block; }
+        .user-icon { width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #333; margin-bottom: 5px; font-size: 20px; }
+
+        .welcome-text h1 { font-size: 32px; font-weight: bold; }
+        .welcome-text p { font-size: 14px; opacity: 0.8; margin-top: 5px; line-height: 1.4; }
+
+        .section-title { padding: 20px; font-size: 18px; font-weight: bold; color: #222; }
+
+        /* CARDS SUPERIORES */
+        .scroll-cards { display: flex; gap: 15px; overflow-x: auto; padding: 0 20px; scrollbar-width: none; }
+        .scroll-cards::-webkit-scrollbar { display: none; }
+        
+        .card-opt { min-width: 160px; background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+        .card-opt img { width: 100%; height: 180px; object-fit: cover; }
+        .card-opt p { padding: 15px; font-size: 13px; font-weight: bold; text-align: center; line-height: 1.2; color: #111; }
+
+        /* MATERIAS INICIO (Estilo actualizado) */
+        .materia-home {
+            min-width: 110px; height: 75px; border-radius: 18px;
+            padding: 10px; color: white; position: relative; overflow: hidden;
+            display: flex; align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* --- NUEVO ESTILO DE LA ETIQUETA (Basado en la imagen) --- */
+        .materia-home .mini-tag { 
+            background: white; 
+            color: #3c81f6; /* Cambiará dinámicamente */
+            font-size: 8px; 
+            padding: 18px 8px; /* Más alto */
+            
+            /* SÓLO LA ESQUINA SUPERIOR DERECHA REDONDEADA */
+            border-radius: 5px 25px 5px 5px; 
+            
+            font-weight: bold; 
+            margin-right: 12px; 
+            z-index: 2;
+            text-align: center;
+        }
+
+        .materia-home .grade { position: absolute; right: 15px; font-size: 20px; font-weight: bold; z-index: 2;}
+
+        /* --- PANTALLA DETALLE --- */
+        .header-detail { background: white; padding: 20px; border-bottom-right-radius: 50px; position: relative; }
+        .back-btn { color: var(--utec-maroon); font-size: 24px; cursor: pointer; display: flex; align-items: center; gap: 10px; margin-bottom: 15px; text-decoration: none; font-weight: bold; }
+        
+        .eval-card {
+            height: 80px; border-radius: 20px; margin: 12px 20px;
+            display: flex; align-items: center; padding: 0 15px; color: white; position: relative; overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* --- NUEVO ESTILO DE ETIQUETA EN DETALLE --- */
+        .eval-tag { 
+            background: white; 
+            color: #3c81f6; 
+            padding: 15px 10px; 
+            
+            /* SÓLO LA ESQUINA SUPERIOR DERECHA REDONDEADA */
+            border-radius: 5px 25px 5px 5px; 
+            
+            font-size: 11px; 
+            font-weight: bold; 
+            margin-right: 15px; 
+            text-align: center;
+        }
+
+        .status-icon { width: 28px; height: 28px; background: rgba(255,255,255,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+
+        /* BARRA INFERIOR (NAVBAR) */
+        .navbar {
+            position: fixed; bottom: 0; width: 100%; background: white;
+            display: flex; justify-content: space-around; padding: 18px 0;
+            box-shadow: 0 -3px 15px rgba(0,0,0,0.08);
+            z-index: 10;
+        }
+        .nav-item { font-size: 22px; color: #333; opacity: 0.5; cursor: pointer; }
+        .nav-item.active { color: var(--utec-maroon); opacity: 1; }
+
+        /* COLORES, PATRÓN Y UTILIDADES */
+        .blue { background: #4d84f5; } .blue .mini-tag { color: #4d84f5; }
+        .green { background: #4cd995; } .green .mini-tag { color: #4cd995; }
+        .orange { background: #ffb35c; } .orange .mini-tag { color: #ffb35c; }
+        .indigo { background: #667eea; } .indigo .mini-tag { color: #667eea; }
+        .deep-orange { background: #ff7043; } .deep-orange .mini-tag { color: #ff7043; }
+        
+        .dots { position: absolute; right: -5px; top: -5px; font-size: 35px; opacity: 0.15; pointer-events: none; line-height: 0.8; }
+    </style>
+</head>
+<body>
+
+<div id="home" class="screen active">
+    <div class="header-home">
+        <div class="top-bar">
+            <img src="LOGO.JPEG" class="logo-utec">
+            <div class="cum-box">
+                <div class="user-icon">👤</div>
+                <b>7.2</b>
+                <small>Cum</small>
+            </div>
+        </div>
+        <div class="welcome-text">
+            <h1>¡Bienvenido!</h1>
+            <p>José Daniel Valencia Cárcamo<br>Ingeniería En Sistemas Y Computación</p>
+        </div>
+    </div>
+
+    <div class="section-title">¿Qué deseas hacer?</div>
+    <div class="scroll-cards">
+        <div class="card-opt">
+            <img src="CUENTAS.JPEG">
+            <p>Estado de cuenta</p>
+        </div>
+        <div class="card-opt">
+            <img src="ESPEDIENTE.JPEG">
+            <p>Expediente académico</p>
+        </div>
+        <div class="card-opt">
+            <img src="TRAMITES.JPEG">
+            <p>Trámites académicos</p>
+        </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; padding-right:20px; margin-top: 10px;">
+        <div class="section-title">Consulta de notas</div>
+        <span onclick="abrirDetalle()" style="color:var(--utec-maroon); font-weight:bold; font-size:12px; cursor:pointer;">VER TODOS</span>
+    </div>
+
+    <div class="scroll-cards" style="padding-bottom: 20px;">
+        <div class="materia-home blue"><div class="mini-tag">BAS1-I</div><div class="grade">3</div><div class="dots">::::<br>::::</div></div>
+        <div class="materia-home green"><div class="mini-tag">FILO-H</div><div class="grade">3.6</div><div class="dots">::::<br>::::</div></div>
+        <div class="materia-home orange"><div class="mini-tag">FIS1-I</div><div class="grade">3</div><div class="dots">::::<br>::::</div></div>
+	<div class="materia-home green"><div class="mini-tag">MAT3-T</div><div class="grade">3.1</div><div class="dots">::::<br>::::</div></div>
+        <div class="materia-home orange"><div class="mini-tag">PROG1-I</div><div class="grade">2.6</div><div class="dots">::::<br>::::</div></div>
+    </div>
+
+    <div class="navbar">
+        <div class="nav-item active">🏠</div>
+        <div class="nav-item">❓</div>
+        <div class="nav-item">📚</div>
+        <div class="nav-item">📄</div>
+        <div class="nav-item">☰</div>
+    </div>
+</div>
+
+<div id="detalle" class="screen">
+    <div class="header-detail">
+        <a class="back-btn" onclick="volverInicio()">← <span>Consulta de notas</span></a>
+        <div style="display:flex; align-items:center; gap:15px; margin-top: 10px;">
+            <div class="user-icon" style="background:#f0f0f0;">👤</div>
+            <div>
+                <p style="font-size:12px; color:#666;">Hola,</p>
+                <h3 style="font-size:15px; color: #111;">José Daniel Valencia Cárcamo</h3>
+                <p style="color:var(--utec-maroon); font-size:11px; font-weight:bold;">Ingeniería En Sistemas Y Computación</p>
+            </div>
+        </div>
+        <div style="position:absolute; right:25px; top:70px; text-align:center; color:var(--utec-maroon);">
+            <b style="font-size:45px; line-height: 1;">7.2</b><br><small style="font-weight:bold; font-size: 14px;">Cum</small>
+        </div>
+    </div>
+
+    <div class="scroll-cards" style="padding: 25px 0 15px;">
+        <div class="materia-home blue" onclick="renderEvals(0)"><div class="mini-tag">BAS1-I</div><div class="grade">3</div><div class="dots">::::</div></div>
+        <div class="materia-home green" onclick="renderEvals(1)"><div class="mini-tag">FILO-H</div><div class="grade">3.6</div><div class="dots">::::</div></div>
+        <div class="materia-home orange" onclick="renderEvals(2)"><div class="mini-tag">FIS1-I</div><div class="grade">3</div><div class="dots">::::</div></div>
+        <div class="materia-home green" onclick="renderEvals(3)"><div class="mini-tag">MAT3-T</div><div class="grade">3.1</div><div class="dots">::::</div></div>
+        <div class="materia-home orange" onclick="renderEvals(4)"><div class="mini-tag">PROG1-I</div><div class="grade">2.6</div><div class="dots">::::</div></div>
+    </div>
+
+    <div id="evalsContainer" style="padding-bottom: 20px;">
+        </div>
+</div>
+
+<script>
+    // Datos simulados (Se mantienen igual)
+    const materias = [
+        { id: "BAS1-I", nom: "BASE DE DATOS I", color: "blue", nota: 3, evals: [{n:"01",v:6,ok:1},{n:"02",v:8.9,ok:1},{n:"03",v:0,ok:0},{n:"04",v:0,ok:0},{n:"05",v:0,ok:0}] },
+        { id: "FILO-H", nom: "FILOSOFÍA", color: "green", nota: 3.6, evals: [{n:"01",v:8.8,ok:1},{n:"02",v:9.4,ok:1},{n:"03",v:0,ok:0},{n:"04",v:0,ok:0},{n:"05",v:0,ok:0}] },
+        { id: "FIS1-I", nom: "FÍSICA I", color: "orange", nota: 3, evals: [{n:"01",v:7.5,ok:1},{n:"02",v:7.5,ok:1},{n:"03",v:0,ok:0},{n:"04",v:0,ok:0},{n:"05",v:0,ok:0}] },
+        { id: "MAT3-T", nom: "MATEMÁTICA III", color: "green", nota: 3.1, evals: [{n:"01",v:6.6,ok:1},{n:"02",v:9.1,ok:1},{n:"03",v:0,ok:0},{n:"04",v:0,ok:0},{n:"05",v:0,ok:0}] },
+        { id: "PROG1-I", nom: "PROGRAMACIÓN I", color: "orange", nota: 2.6, evals: [{n:"01",v:6.2,ok:1},{n:"02",v:6.9,ok:1},{n:"03",v:0,ok:0},{n:"04",v:0,ok:0},{n:"05",v:0,ok:0}] }
+    ];
+
+    function abrirDetalle() {
+        document.getElementById('home').classList.remove('active');
+        document.getElementById('detalle').classList.add('active');
+        window.scrollTo(0, 0);
+        renderEvals(0); // Carga la primera materia por defecto
+    }
+
+    function volverInicio() {
+        document.getElementById('detalle').classList.remove('active');
+        document.getElementById('home').classList.add('active');
+    }
+
+    function renderEvals(idx) {
+        const m = materias[idx];
+        const container = document.getElementById('evalsContainer');
+        // Renderizado dinámico usando el nuevo diseño de etiqueta blanca
+        container.innerHTML = m.evals.map(e => `
+            <div class="eval-card ${m.color}">
+                <div class="eval-tag">EVA. ${e.n}</div>
+                <div style="flex:1; font-size:10px; opacity:0.8; text-transform: uppercase; font-weight: 600; padding-right: 5px;">${m.nom}</div>
+                <div style="font-size:26px; font-weight:bold; margin-right:12px; min-width: 40px; text-align: right;">${e.v.toFixed(1)}</div>
+                <div class="status-icon">${e.ok ? '✔' : '✖'}</div>
+                <div class="dots">::::<br>::::</div>
+            </div>
+        `).join('');
+    }
+</script>
+
+</body>
+</html>
